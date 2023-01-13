@@ -1,11 +1,14 @@
 import {filesService} from "@/services/files.service";
+import {MessageToast} from "@/utils/AlertError";
+import {errors} from "@/utils/errors";
 
 export default {
     namespaced: true,
     state() {
         return {
             files: [],
-            currentDir: null
+            currentDir: null,
+            currentDirHistory: []
         }
     },
     mutations: {
@@ -15,9 +18,15 @@ export default {
         addFiles(state, file) {
             state.files.push(file)
         },
-        setCurrentDir(state, dirId){
+        setCurrentDir(state, dirId) {
             state.currentDir = dirId
-        }
+        },
+        folderNext(state, dirId) {
+            state.currentDirHistory.push(dirId)
+        },
+        folderPrev(state) {
+            return state.currentDirHistory.pop()
+        },
     },
     actions: {
         async get({commit}, dirId) {
@@ -28,7 +37,7 @@ export default {
                 }
                 return files
             } catch (err) {
-                console.log(err)
+                MessageToast(errors(err.response.data.message))
                 throw err
             }
         },
@@ -37,7 +46,7 @@ export default {
                 const data = await filesService.createDir(name, dirId)
                 commit("addFiles", data)
             } catch (err) {
-                console.log(err)
+                MessageToast(errors(err.response.data.message))
                 throw err
             }
         }

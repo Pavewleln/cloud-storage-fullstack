@@ -1,25 +1,39 @@
 <template>
-  <v-alert :type="type">{{text}}</v-alert>
+  <v-btn
+      color="red-darken-2"
+      @click="snackbar = true"
+  >
+    Open Snackbar
+  </v-btn>
+  <v-snackbar
+      v-model="snackbar"
+      :timeout="timeout"
+  >
+    {{ text }}
+
+    <template v-slot:actions>
+      <v-btn
+          color="blue"
+          variant="text"
+          @click="snackbar = false"
+      >
+        Close
+      </v-btn>
+    </template>
+  </v-snackbar>
 </template>
 
 <script>
 export default {
   props: {
-    type: {
-      type: String,
-      required: true,
-      default(value){
-        return ['success', 'warning', 'danger'].includes(value)
-      }
-    },
     text: {
       type: String,
       required: true
     }
-  }
+  },
+  data: () => ({
+    snackbar: false,
+    timeout: 2000,
+  }),
 }
 </script>
-
-<style scoped>
-
-</style>

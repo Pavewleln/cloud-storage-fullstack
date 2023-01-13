@@ -30,6 +30,7 @@
 </template>
 
 <script>
+
 export default {
   data() {
     return {
@@ -59,10 +60,12 @@ export default {
     },
     openDirHandler(dirId) {
       this.$store.commit("files/setCurrentDir", dirId)
+      this.$store.commit("files/folderNext", dirId)
       this.currentDir = dirId
+
     },
     backClickHandler() {
-
+      this.currentDir = this.$store.commit("files/folderPrev")
     }
   }
 }
@@ -71,9 +74,7 @@ export default {
 <style scoped lang="scss">
 .file {
   cursor: pointer;
-
   &:hover {
-    transform: scale(1.002);
     background: #fcf6e0;
   }
 }
