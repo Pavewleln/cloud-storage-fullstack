@@ -1,5 +1,7 @@
 import {authService} from "@/services/auth.service";
 import router from "@/router";
+import {MessageToast} from "@/utils/AlertError";
+import {errors} from "@/utils/errors";
 
 const TOKEN_KEY = 'jwt-token'
 export default {
@@ -28,7 +30,7 @@ export default {
                 const {token} = await authService.login({email, password})
                 commit('setToken', token)
             } catch (err) {
-                console.log(err)
+                MessageToast(errors(err.response.data.message))
                 throw err
             }
         },
@@ -37,7 +39,7 @@ export default {
                 const {token} = await authService.registration(payload)
                 commit('setToken', token)
             } catch (err) {
-                console.log(err)
+                MessageToast(errors(err.response.data.message))
                 throw err
             }
         },
@@ -49,7 +51,7 @@ export default {
                 if(err.response.statusText === 'Unauthorized') {
                     await router.push("/login?token=not-valid")
                 }
-                console.log(err)
+                MessageToast(errors(err.response.data.message))
                 throw err
             }
         }
