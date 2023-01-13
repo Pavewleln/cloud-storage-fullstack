@@ -47,7 +47,7 @@ export default {
                 commit("setAuth", user)
             } catch (err) {
                 if(err.response.statusText === 'Unauthorized') {
-                    router.push("/login?token=err")
+                    await router.push("/login?token=not-valid")
                 }
                 console.log(err)
                 throw err
