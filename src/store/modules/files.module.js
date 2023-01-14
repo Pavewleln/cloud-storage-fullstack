@@ -22,10 +22,11 @@ export default {
             state.currentDir = dirId
         },
         folderNext(state, dirId) {
-            state.currentDirHistory.push(dirId)
+            state.currentDirHistory = [...state.currentDirHistory, dirId]
         },
         folderPrev(state) {
-            return state.currentDirHistory.pop()
+            state.currentDirHistory = state.currentDirHistory.filter(c => c !== state.currentDir)
+            state.currentDir = state.currentDirHistory.pop()
         },
     },
     actions: {

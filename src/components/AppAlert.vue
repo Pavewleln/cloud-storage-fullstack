@@ -1,10 +1,4 @@
 <template>
-  <v-btn
-      color="red-darken-2"
-      @click="snackbar = true"
-  >
-    Open Snackbar
-  </v-btn>
   <v-snackbar
       v-model="snackbar"
       :timeout="timeout"

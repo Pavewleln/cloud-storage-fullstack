@@ -1,42 +1,31 @@
 <template>
-  <v-btn class="ma-2" @click="backClickHandler">Назад</v-btn>
-  <v-btn class="ma-2" @click="createDir">Создать папку</v-btn>
-  <input placeholder="Название" v-model="dirname"/>
-  <v-container>
-    <v-table>
-      <thead>
-      <tr>
-        <th class="text-left">
-          Название
-        </th>
-        <th class="text-left">
-          Размер
-        </th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr
-          v-for="item in desserts"
-          :key="item._id"
-          class="file"
-          @click="item.type === 'dir' ? openDirHandler(item._id) : ''"
-      >
-        <td>{{ item.name }}</td>
-        <td>{{ item.size }}</td>
-      </tr>
-      </tbody>
-    </v-table>
-  </v-container>
+  <v-btn class="ma-2" @click="backClickHandler" v-if="currentDir">Назад</v-btn>
+  <v-btn class="ma-2" @click="dialog = true">Создать папку</v-btn>
+  <HomeTable :desserts="desserts" @openDirHandler="openDirHandler"/>
+  <v-row justify="center">
+    <v-dialog
+        v-model="dialog"
+        persistent
+        max-width="290"
+    >
+      <PopupCreateDir @close="dialog = false" :currentDir="currentDir"/>
+    </v-dialog>
+  </v-row>
 </template>
 
 <script>
 
+import HomeTable from "@/components/home/HomeTable";
+import PopupCreateDir from "@/components/PopupCreateDir";
+
 export default {
+  components: {PopupCreateDir, HomeTable},
   data() {
     return {
       dirname: '',
       desserts: [],
-      currentDir: null
+      currentDir: null,
+      dialog: false
     }
   },
   async mounted() {
@@ -44,6 +33,7 @@ export default {
   },
   computed() {
     this.desserts = this.$store.getters["files/files"]
+    this.currentDir = this.$store.getters["files/currentDir"]
   },
   watch: {
     async currentDir(value) {
@@ -51,31 +41,18 @@ export default {
     }
   },
   methods: {
-    createDir() {
-      const payload = {
-        name: this.dirname,
-        dirId: this.currentDir
-      }
-      this.$store.dispatch("files/createDir", payload)
-    },
     openDirHandler(dirId) {
       this.$store.commit("files/setCurrentDir", dirId)
       this.$store.commit("files/folderNext", dirId)
       this.currentDir = dirId
-
     },
     backClickHandler() {
-      this.currentDir = this.$store.commit("files/folderPrev")
+      this.$store.commit("files/folderPrev")
+      this.currentDir = this.$store.getters["files/currentDir"]
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
-.file {
-  cursor: pointer;
-  &:hover {
-    background: #fcf6e0;
-  }
-}
 </style>
