@@ -1,45 +1,29 @@
 <template>
-  <v-container>
-    <v-table>
-      <thead>
-      <tr>
-        <th class="text-left">
-          Название
-        </th>
-        <th class="text-left">
-          Размер
-        </th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr
-          v-for="item in desserts"
-          :key="item._id"
-          class="file"
-          @click="item.type === 'dir' ? $emit('openDirHandler', item._id) : ''"
-      >
-        <td>{{ item.name }}</td>
-        <td>{{ item.size }}</td>
-      </tr>
-      </tbody>
-    </v-table>
-  </v-container>
+  <v-row class="text-center">
+    <AppCreateNewFolder @createDirHandler="$emit('createDirHandler')"/>
+    <div v-for="item in desserts" :key="item._id" class="ma-2 file">
+      <AppFile :item="item" @openDirHandler="$emit('openDirHandler', item)"/>
+    </div>
+  </v-row>
 </template>
 
 <script>
+import AppCreateNewFolder from "@/components/files/AppCreateNewFolder";
+import AppFile from "@/components/files/AppFile";
 export default {
+  components: {AppFile, AppCreateNewFolder},
   props: ['desserts'],
-  emits: ['openDirHandler']
+  emits: ['openDirHandler', 'createDirHandler']
 }
 </script>
 
 <style scoped lang="scss">
-.file {
-  cursor: pointer;
+.file, .createNewFolder {
+  transition: all 0.2s ease;
+  width: 100px;
 
   &:hover {
-    background: #fcf6e0;
+    opacity: 0.6;
   }
-
 }
 </style>

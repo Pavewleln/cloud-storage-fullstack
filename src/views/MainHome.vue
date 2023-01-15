@@ -1,8 +1,17 @@
 <template>
-  <v-btn class="ma-2" @click="backClickHandler" v-if="currentDir">Назад</v-btn>
-  <v-btn class="ma-2" @click="dialog = true">Создать папку</v-btn>
-  <HomeTable :desserts="desserts" @openDirHandler="openDirHandler"/>
-  <v-row justify="center">
+  <div class="import">
+    <label for="import">
+      <p class="text-white">Загрузить файл</p>
+    </label>
+    <input class="d-none" id="import" multiple @change="(e) => fileUploadHandler(e)" type="file"/>
+  </div>
+  <v-container class="ma-auto pa-10 overflow-x-auto">
+    <v-icon class="mb-5" @click="backClickHandler" v-if="currentDir" dark left>mdi-arrow-left</v-icon>
+    <AppLoader v-if="loading"/>
+    <h2 class="text-center" v-else-if="!files">У вас нет папок</h2>
+    <HomeTable @createDirHandler="createDirHandler" v-else :desserts="files" @openDirHandler="openDirHandler"/>
+  </v-container>
+  <v-row>
     <v-dialog
         v-model="dialog"
         persistent
@@ -17,42 +26,80 @@
 
 import HomeTable from "@/components/home/HomeTable";
 import PopupCreateDir from "@/components/PopupCreateDir";
+import AppLoader from "@/components/AppLoader";
+import {mapState} from 'vuex'
 
 export default {
-  components: {PopupCreateDir, HomeTable},
+  components: {AppLoader, PopupCreateDir, HomeTable},
   data() {
     return {
       dirname: '',
-      desserts: [],
-      currentDir: null,
-      dialog: false
+      dialog: false,
+      loading: false
     }
   },
   async mounted() {
-    this.desserts = await this.$store.dispatch('files/get')
+    try {
+      this.loading = true
+      await this.$store.dispatch('files/get')
+      this.loading = false
+    } catch (err) {
+      console.log(err)
+    }
   },
-  computed() {
-    this.desserts = this.$store.getters["files/files"]
-    this.currentDir = this.$store.getters["files/currentDir"]
+  computed: {
+    ...mapState('files', ["files"]),
+    ...mapState('files', ["currentDir"]),
   },
   watch: {
     async currentDir(value) {
-      this.desserts = await this.$store.dispatch('files/get', value)
+      try {
+        this.loading = true
+        await this.$store.dispatch('files/get', value)
+        this.loading = false
+      } catch (err) {
+        console.log(err)
+      }
     }
   },
   methods: {
-    openDirHandler(dirId) {
-      this.$store.commit("files/setCurrentDir", dirId)
-      this.$store.commit("files/folderNext", dirId)
-      this.currentDir = dirId
+    openDirHandler(file) {
+      if (file.type === 'dir') {
+        this.$store.commit("files/setCurrentDir", file._id)
+        this.$store.commit("files/folderNext", file._id)
+      }
     },
     backClickHandler() {
       this.$store.commit("files/folderPrev")
-      this.currentDir = this.$store.getters["files/currentDir"]
+    },
+    fileUploadHandler(event) {
+      const files = [...event.target.files]
+      files.forEach(file => {
+        const payload = {
+          file,
+          dirId: this.currentDir
+        }
+        this.$store.dispatch("files/uploadFile", payload)
+      })
+    },
+    createDirHandler() {
+      this.dialog = true
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
+.import {
+  cursor: pointer;
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 25px;
+  background: orange;
+  padding: 10px;
+}
 </style>

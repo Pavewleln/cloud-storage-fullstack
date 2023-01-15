@@ -9,9 +9,10 @@ const ERROR_CODES = {
     EMAIL_NOT_FOUND: 'Неправильная почта или пароль',
     UNCORRECT_REQUEST: 'Неправильный запрос',
     USER_WAS_CREATED: 'Пользователь создан',
-    SERVER_ERROR: 'Ошибка'
+    SERVER_ERROR: 'Что-то пошло не так :(',
+    FILE_ALREADY_EXIST: 'Такой файл уже есть'
 }
 
 export function errors(code){
-    return ERROR_CODES[code] ? ERROR_CODES[code] : 'Неизвестная ошибка'
+    return ERROR_CODES[code] ? ERROR_CODES[code] : code
 }

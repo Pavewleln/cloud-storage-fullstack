@@ -1,8 +1,8 @@
 <template>
-  <v-card>
+  <v-card class="pa-2 text-center">
       <v-icon @click="close">mdi-close</v-icon>
     <v-card-title class="text-h5">
-      Название новой папки
+      Название папки
     </v-card-title>
     <v-card-text>
       <v-form

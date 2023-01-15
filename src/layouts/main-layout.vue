@@ -10,7 +10,7 @@
         <v-toolbar-title>Cloud storage</v-toolbar-title>
 
         <v-spacer></v-spacer>
-        <p class="mr-5">{{name}}</p>
+        <p class="mr-5">{{auth.firstname}}</p>
         <v-menu>
           <template v-slot:activator="{ props }">
             <v-avatar size="40" color="surface-variant" class="mr-5" v-bind="props"></v-avatar>
@@ -37,19 +37,18 @@
         </v-list>
       </v-navigation-drawer>
 
-      <v-main style="height: 100vh">
+      <v-main style="height: 100vh" class="overflow-auto">
         <router-view></router-view>
       </v-main>
     </v-layout>
   </v-card>
-
 </template>
 
 <script>
+import {mapState} from 'vuex'
 export default {
   data: () => ({
     drawer: false,
-    group: null,
     links: [
       {
         title: 'Главная',
@@ -61,23 +60,17 @@ export default {
         title: 'Выйти',
         to: '/logout',
       }
-    ],
-    name: ""
+    ]
   }),
-
-  watch: {
-    group() {
-      this.drawer = false
-    },
-  },
   async mounted() {
     try{
       await this.$store.dispatch("auth/auth")
-      this.name = await this.$store.getters["auth/auth"].firstname
     } catch(err) {
       console.log(err)
     }
-
+  },
+  computed: {
+    ...mapState('auth', ['auth'])
   }
 }
 </script>
