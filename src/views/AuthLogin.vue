@@ -54,20 +54,20 @@ export default {
     show2: true,
     password: '',
     passwordRules: {
-      required: value => !!value || 'Required.',
-      min: v => v.length >= 8 || 'Min 8 characters',
+      required: value => !!value || 'Пароль невалиден',
+      min: v => v.length >= 8 || 'Минимум 8 символов',
     },
     email: '',
     emailRules: [
-      v => !!v || 'E-mail is required',
-      v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+      v => !!v || 'Почта не валидна',
+      v => /.+@.+\..+/.test(v) || 'Почта не валидна',
     ]
   }),
 
   methods: {
     async validate() {
       const {valid} = await this.$refs.form.validate()
-      if (!valid) alert('Form is not valid')
+      if (!valid) alert('Форма не валидна')
       const payload = {
         email: this.email,
         password: this.password

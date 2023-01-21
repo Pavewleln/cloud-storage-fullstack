@@ -10,10 +10,10 @@
         <v-toolbar-title>Cloud storage</v-toolbar-title>
 
         <v-spacer></v-spacer>
-        <p class="mr-5">{{auth.firstname}}</p>
+        <p class="mr-5">{{auth?.firstname}}</p>
         <v-menu>
           <template v-slot:activator="{ props }">
-            <v-avatar size="40" color="surface-variant" class="mr-5" v-bind="props"></v-avatar>
+            <v-avatar size="40" color="surface-variant" class="mr-5 avatar" v-bind="props"></v-avatar>
           </template>
 
           <v-list>
@@ -53,6 +53,10 @@ export default {
       {
         title: 'Главная',
         to: '/',
+      },
+      {
+        title: 'Новые файлы',
+        to: '/news'
       }
     ],
     avatarLinks: [
@@ -75,6 +79,8 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+.avatar{
+  cursor: pointer;
+}
 </style>

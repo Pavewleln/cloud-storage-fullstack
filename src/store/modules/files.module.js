@@ -1,6 +1,7 @@
 import {filesService} from "@/services/files.service";
 import {MessageToast} from "@/utils/AlertError";
 import {errors} from "@/utils/errors";
+import http from "@/services/config";
 
 export default {
     namespaced: true,
@@ -8,7 +9,9 @@ export default {
         return {
             files: [],
             currentDir: null,
-            currentDirHistory: []
+            currentDirHistory: [],
+            arrayNamesDir: [],
+            progressFileUpload: 0
         }
     },
     mutations: {
@@ -24,6 +27,12 @@ export default {
         folderNext(state, dirId) {
             state.currentDirHistory = [...state.currentDirHistory, dirId]
         },
+        pushArrayNamesDir(state, dirName) {
+            state.arrayNamesDir = [...state.arrayNamesDir, dirName]
+        },
+        prevArrayNamesDir(state) {
+            state.arrayNamesDir.splice(-1, 1)
+        },
         folderPrev(state) {
             state.currentDirHistory = state.currentDirHistory.filter(c => c !== state.currentDir)
             state.currentDir = state.currentDirHistory.pop()
@@ -32,6 +41,15 @@ export default {
             state.files = state.files.filter(
                 (c) => c._id !== fileId
             );
+        },
+        updateNameFile(state, {name, id}) {
+            state.files[state.files.findIndex((f) => f._id === id)].name = name
+        },
+        changeUploadFile(state, progress){
+            state.progressFileUpload = progress
+        },
+        removeChangeUploadFile(state){
+            state.progressFileUpload = 0
         }
     },
     actions: {
@@ -63,7 +81,12 @@ export default {
                 if (dirId) {
                     formData.append('parent', dirId)
                 }
-                const data = await filesService.uploadFile(formData)
+                const {data} = await http.post('/files/upload', formData, {
+                    onUploadProgress: e => {
+                        const progress = Math.round(e.loaded * 100 / e.total)
+                        commit("changeUploadFile", progress)
+                    }
+                })
                 commit("addFiles", data)
             } catch (err) {
                 MessageToast(errors(err.response.data.message))
@@ -94,10 +117,21 @@ export default {
         },
         async deleteFile({commit}, fileId) {
             try {
-                await filesService.deleteFile(fileId)
-                commit("deleteFile", fileId)
+                const content = await filesService.deleteFile(fileId)
+                if(!content) {
+                    commit("deleteFile", fileId)
+                }
             } catch (err) {
                 MessageToast(errors(err?.response?.data?.message))
+                throw err
+            }
+        },
+        async updateNameFile({commit}, {name, id}) {
+            try {
+                await filesService.updateNameFile(name, id)
+                commit("updateNameFile", {name, id})
+            } catch (err) {
+                MessageToast(errors(err.response.data.message))
                 throw err
             }
         }

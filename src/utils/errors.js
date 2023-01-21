@@ -1,5 +1,5 @@
 const ERROR_CODES = {
-    CAN_NOT_GET_FILES: 'Вы еще ничего не создавали',
+    CAN_NOT_GET_FILES: 'Файлы не найдены',
     INVALID_TOKEN: 'Невалидный токен. Возможно истек срок его действия. Пожалуйста, авторизуйтесь',
     AUTH_ERROR: 'Не удалось авторизоваться',
     USER_NOT_FOUND: 'Пользователь не найден',
@@ -10,7 +10,8 @@ const ERROR_CODES = {
     UNCORRECT_REQUEST: 'Неправильный запрос',
     USER_WAS_CREATED: 'Пользователь создан',
     SERVER_ERROR: 'Что-то пошло не так :(',
-    FILE_ALREADY_EXIST: 'Такой файл уже есть'
+    FILE_ALREADY_EXIST: 'Такой файл уже есть',
+    DIR_IS_NOT_EMPTY: 'Данная папка не пуста'
 }
 
 export function errors(code){

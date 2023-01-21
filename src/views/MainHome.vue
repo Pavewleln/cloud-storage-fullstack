@@ -1,41 +1,25 @@
 <template>
-  <div class="import">
-    <label for="import">
-      <p class="text-white">Загрузить файл</p>
-    </label>
-    <input class="d-none" id="import" multiple @change="(e) => fileUploadHandler(e)" type="file"/>
+  <AppButtonImport :currentDir="currentDir"/>
+  <div class="d-flex justify-end ma-5">
+    <v-btn v-if="table === 'grid'" @click="updateTable('spreadsheet')" class="ma-3">табличный</v-btn>
+    <v-btn v-if="table === 'spreadsheet'" @click="updateTable('grid')" class="ma-3">сетчатый</v-btn>
   </div>
-  <v-container class="ma-auto pa-10 overflow-x-auto">
-    <v-icon class="mb-5" @click="backClickHandler" v-if="currentDir" dark left>mdi-arrow-left</v-icon>
-    <AppLoader v-if="loading"/>
-    <h2 class="text-center" v-else-if="!files">У вас нет папок</h2>
-    <HomeTable @createDirHandler="createDirHandler" v-else :desserts="files" @openDirHandler="openDirHandler"/>
-  </v-container>
-  <v-row>
-    <v-dialog
-        v-model="dialog"
-        persistent
-        max-width="290"
-    >
-      <PopupCreateDir @close="dialog = false" :currentDir="currentDir"/>
-    </v-dialog>
-  </v-row>
+  <AppDisk :current-dir="currentDir" :loading="loading" :table="table"/>
 </template>
 
 <script>
 
-import HomeTable from "@/components/home/HomeTable";
-import PopupCreateDir from "@/components/PopupCreateDir";
-import AppLoader from "@/components/AppLoader";
 import {mapState} from 'vuex'
+import AppButtonImport from "@/components/AppButtonImport";
+import AppDisk from "@/components/files/AppDisk";
 
 export default {
-  components: {AppLoader, PopupCreateDir, HomeTable},
+  components: {AppDisk, AppButtonImport},
   data() {
     return {
       dirname: '',
-      dialog: false,
-      loading: false
+      loading: false,
+      table: window.localStorage.getItem('table') ?? 'grid'
     }
   },
   async mounted() {
@@ -47,9 +31,14 @@ export default {
       console.log(err)
     }
   },
+  methods: {
+    updateTable(variable) {
+      this.table = variable
+      window.localStorage.setItem('table', variable)
+    }
+  },
   computed: {
-    ...mapState('files', ["files"]),
-    ...mapState('files', ["currentDir"]),
+    ...mapState('files', ["currentDir"])
   },
   watch: {
     async currentDir(value) {
@@ -61,37 +50,12 @@ export default {
         console.log(err)
       }
     }
-  },
-  methods: {
-    openDirHandler(file) {
-      if (file.type === 'dir') {
-        this.$store.commit("files/setCurrentDir", file._id)
-        this.$store.commit("files/folderNext", file._id)
-      }
-    },
-    backClickHandler() {
-      this.$store.commit("files/folderPrev")
-    },
-    fileUploadHandler(event) {
-      const files = [...event.target.files]
-      files.forEach(file => {
-        const payload = {
-          file,
-          dirId: this.currentDir
-        }
-        this.$store.dispatch("files/uploadFile", payload)
-      })
-    },
-    createDirHandler() {
-      this.dialog = true
-    }
   }
 }
 </script>
 
 <style scoped lang="scss">
 .import {
-  cursor: pointer;
   position: absolute;
   bottom: 30px;
   right: 30px;
@@ -100,6 +64,7 @@ export default {
   justify-content: center;
   border-radius: 25px;
   background: orange;
-  padding: 10px;
+  padding: 15px;
+  z-index: 1000;
 }
 </style>
