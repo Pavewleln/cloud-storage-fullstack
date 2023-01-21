@@ -24,8 +24,12 @@ export default {
   },
   async mounted() {
     try {
+      const payload = {
+        dirId: null,
+        sort: null
+      }
       this.loading = true
-      await this.$store.dispatch('files/get')
+      await this.$store.dispatch('files/get', payload)
       this.loading = false
     } catch (err) {
       console.log(err)
@@ -43,8 +47,12 @@ export default {
   watch: {
     async currentDir(value) {
       try {
+        const payload = {
+          dirId: value,
+          sort: null
+        }
         this.loading = true
-        await this.$store.dispatch('files/get', value)
+        await this.$store.dispatch('files/get', payload)
         this.loading = false
       } catch (err) {
         console.log(err)
