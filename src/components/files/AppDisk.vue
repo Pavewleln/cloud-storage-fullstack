@@ -1,10 +1,14 @@
 <template>
   <v-container>
+    <!--    Breadcrumbs-->
     <div>
       <v-breadcrumbs :items="arrayNamesDir"></v-breadcrumbs>
     </div>
+    <!--    Кнопка выхода на один уровень ниже-->
     <v-icon class="mb-5" @click="backClickHandler" v-if="currentDir" dark left>mdi-arrow-left</v-icon>
+    <!--    loading-->
     <AppLoader v-if="loading"/>
+    <!--    Файлы-->
     <HomeTable
         v-else
         :table="table"

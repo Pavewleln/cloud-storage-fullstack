@@ -1,8 +1,18 @@
-import http from "@/services/config";
+import http, {API_URL} from "@/services/config";
 
 export const filesService = {
-    get: async (dirId) => {
-        const {data} = await http.get(`/files${dirId ? '?parent='+dirId : ''}`)
+    get: async (dirId, sort) => {
+        let url = `${API_URL}/files`
+        if (dirId) {
+            url = `${API_URL}/files?parent=${dirId}`
+        }
+        if (sort) {
+            url = `${API_URL}/files?sort=${sort}`
+        }
+        if (dirId && sort) {
+            url = `${API_URL}/files?parent=${dirId}&sort=${sort}`
+        }
+        const {data} = await http.get(url)
         return data
     },
     createDir: async (name, dirId) => {

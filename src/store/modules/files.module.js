@@ -53,9 +53,9 @@ export default {
         }
     },
     actions: {
-        async get({commit}, dirId) {
+        async get({commit}, {dirId, sort}) {
             try {
-                const {files} = await filesService.get(dirId)
+                const files = await filesService.get(dirId, sort)
                 if (files) {
                     commit("setFiles", files)
                 }
