@@ -9,7 +9,7 @@
     <v-card-text class="d-flex align-center justify-center">{{ maxLengthName }}
       <FileMenu :item="item" @updateDirHandler="updateDirHandler"/>
     </v-card-text>
-    <PopupCreateDir v-if="dialog" :popup="'update'" @close="dialog = false" :id="item._id"/>
+    <PopupCreateDir v-if="dialog" :popup="'update'" @close="dialog = false" :id="item._id" :fileName="item.name"/>
     <v-tooltip
         activator="parent"
         location="top"

@@ -14,7 +14,7 @@
       </div>
       <button @click="$emit('updateDirHandler', item)" class="ma-1 file">
         <v-icon class="ma-1">mdi-pencil</v-icon>
-        <span class="ma-1">Обновить</span>
+        <span class="ma-1">Изменить</span>
       </button>
     </v-list>
   </v-menu>

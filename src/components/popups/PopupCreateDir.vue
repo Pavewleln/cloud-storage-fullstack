@@ -8,7 +8,7 @@
       <v-card v-if="popup === 'create'" class="pa-2 text-center">
         <v-icon @click="$emit('close')">mdi-close</v-icon>
         <v-card-title class="text-h5">
-          Название папки
+          Создать
         </v-card-title>
         <v-card-text>
           <v-form
@@ -38,7 +38,7 @@
       <v-card v-if="popup === 'update'" class="pa-2 text-center">
         <v-icon @click="$emit('close')">mdi-close</v-icon>
         <v-card-title class="text-h5">
-          Название папки
+          Изменить
         </v-card-title>
         <v-card-text>
           <v-form
@@ -71,13 +71,14 @@
 
 <script>
 export default {
-  props: ['currentDir', 'popup', 'id'],
+  props: ['currentDir', 'popup', 'id', 'fileName'],
   emits: ['close'],
   data() {
     return {
       valid: true,
       dirname: '',
-      filename: '',
+      filenameExtension: this.fileName.split('.').pop(0, -1),
+      filename: this.fileName.split('.').slice(0, -1).join('.'),
       dirnameRules: [
         v => !!v || 'Название некорректно',
         v => (v && v.length <= 15) || 'Название не должно содержать больше 15 символов',
@@ -105,7 +106,7 @@ export default {
       if (!valid) alert('Форма не валидна')
       const payload = {
         id: this.id,
-        name: this.filename
+        name: this.filename + "." + this.filenameExtension
       }
       try {
         this.$store.dispatch("files/updateNameFile", payload)

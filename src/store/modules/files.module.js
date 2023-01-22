@@ -117,10 +117,8 @@ export default {
         },
         async deleteFile({commit}, fileId) {
             try {
-                const content = await filesService.deleteFile(fileId)
-                if (!content) {
-                    commit("deleteFile", fileId)
-                }
+                await filesService.deleteFile(fileId)
+                commit("deleteFile", fileId)
             } catch (err) {
                 MessageToast(errors(err?.response?.data?.message))
                 throw err

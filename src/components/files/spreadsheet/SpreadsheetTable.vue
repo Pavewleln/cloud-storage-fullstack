@@ -39,12 +39,11 @@
     </tr>
     </tbody>
   </v-table>
-
-  <PopupCreateDir v-if="dialog" :popup="'update'" @close="dialog = false" :id="itemId"/>
+  <PopupCreateDir v-if="dialog" :popup="'update'" @close="dialog = false" :id="itemId" :fileName="itemName"/>
 </template>
 
 <script>
-import AppCreateNewFolder from "@/components/files/AppCreateNewFolder";
+import AppCreateNewFolder from "@/components/AppCreateNewFolder";
 import PopupCreateDir from "@/components/popups/PopupCreateDir";
 import FileMenu from "@/components/files/FileMenu";
 import {sizeFormat} from "@/utils/sizeFormat";
@@ -56,13 +55,15 @@ export default {
   data() {
     return {
       dialog: false,
-      itemId: ''
+      itemId: '',
+      itemName: ''
     }
   },
   methods: {
     updateDirHandler(item) {
       this.itemId = item._id
       this.dialog = true
+      this.itemName = item.name
     }
   },
   setup(){

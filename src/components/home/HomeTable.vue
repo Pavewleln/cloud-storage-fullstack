@@ -20,7 +20,7 @@
   <PopupCreateDir v-if="dialog" :popup="'create'" @close="dialog = false" :currentDir="currentDir"/>
 </template>
 <script>
-import AppCreateNewFolder from "@/components/files/AppCreateNewFolder";
+import AppCreateNewFolder from "@/components/AppCreateNewFolder";
 import GridFile from "@/components/files/grid/GridTable";
 import PopupCreateDir from "@/components/popups/PopupCreateDir";
 import SpreadsheetTable from "@/components/files/spreadsheet/SpreadsheetTable";

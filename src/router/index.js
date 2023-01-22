@@ -38,6 +38,15 @@ const routes = [
             auth: false
         }
     },
+    {
+        path: '/profile',
+        name: 'profile',
+        component: () => import('@/views/MainProfile'),
+        meta: {
+            layout: 'main',
+            auth: true
+        }
+    },
 ]
 
 const router = createRouter({

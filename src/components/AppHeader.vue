@@ -60,6 +60,9 @@ export default {
     ],
     avatarLinks: [
       {
+        title: 'Профиль',
+        to: '/profile',
+      }, {
         title: 'Выйти',
         to: '/logout',
       }

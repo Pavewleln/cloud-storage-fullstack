@@ -14,7 +14,7 @@
 
 import {mapState} from 'vuex'
 import AppButtonImport from "@/components/AppButtonImport";
-import AppDisk from "@/components/files/AppDisk";
+import AppDisk from "@/components/AppDisk";
 
 export default {
   components: {AppDisk, AppButtonImport},
