@@ -24,13 +24,17 @@ export const filesService = {
         return data
     },
     deleteFile: async (fileId) => {
-        const {data} = http.delete(`/files?id=${fileId}`)
+        const {data} = await http.delete(`/files?id=${fileId}`)
         return data
     },
     updateNameFile: async (name, id) => {
-        const {data} = http.patch('/files/update/'+id, {
+        const {data} = await http.patch('/files/update/'+id, {
             name: name
         })
+        return data
+    },
+    searchFile: async (fileName) => {
+        const {data} = await http.get(`/files/search?search=${fileName}`)
         return data
     }
 }

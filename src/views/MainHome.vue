@@ -1,9 +1,12 @@
 <template>
+  <!--  Загрузка файлов-->
   <AppButtonImport :currentDir="currentDir"/>
-  <div class="d-flex justify-end ma-5">
+  <!--  Вид файлов-->
+  <div class="d-flex justify-end mt-2">
     <v-btn v-if="table === 'grid'" @click="updateTable('spreadsheet')" class="ma-3">табличный</v-btn>
     <v-btn v-if="table === 'spreadsheet'" @click="updateTable('grid')" class="ma-3">сетчатый</v-btn>
   </div>
+  <!--  Файлы-->
   <AppDisk :current-dir="currentDir" :loading="loading" :table="table"/>
 </template>
 

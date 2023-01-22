@@ -45,10 +45,10 @@ export default {
         updateNameFile(state, {name, id}) {
             state.files[state.files.findIndex((f) => f._id === id)].name = name
         },
-        changeUploadFile(state, progress){
+        changeUploadFile(state, progress) {
             state.progressFileUpload = progress
         },
-        removeChangeUploadFile(state){
+        removeChangeUploadFile(state) {
             state.progressFileUpload = 0
         }
     },
@@ -118,7 +118,7 @@ export default {
         async deleteFile({commit}, fileId) {
             try {
                 const content = await filesService.deleteFile(fileId)
-                if(!content) {
+                if (!content) {
                     commit("deleteFile", fileId)
                 }
             } catch (err) {
@@ -131,6 +131,19 @@ export default {
                 await filesService.updateNameFile(name, id)
                 commit("updateNameFile", {name, id})
             } catch (err) {
+                MessageToast(errors(err.response.data.message))
+                throw err
+            }
+        },
+        async searchFile({commit}, fileName) {
+            try {
+                const file = await filesService.searchFile(fileName)
+                if (file === []) {
+                    alert("Такого файла нету")
+                }
+                commit("setFiles", file)
+            } catch
+                (err) {
                 MessageToast(errors(err.response.data.message))
                 throw err
             }
