@@ -3,8 +3,8 @@
   <AppButtonImport :currentDir="currentDir"/>
   <!--  Вид файлов-->
   <div class="d-flex justify-end mt-2">
-    <v-btn v-if="table === 'grid'" @click="updateTable('spreadsheet')" class="ma-3">табличный</v-btn>
-    <v-btn v-if="table === 'spreadsheet'" @click="updateTable('grid')" class="ma-3">сетчатый</v-btn>
+    <v-btn v-if="table === 'grid'" @click="updateTable('spreadsheet')" class="ma-3"><img :src="Grid"></v-btn>
+    <v-btn v-if="table === 'spreadsheet'" @click="updateTable('grid')" class="ma-3"><img :src="Spreadsheet"></v-btn>
   </div>
   <!--  Файлы-->
   <AppDisk :current-dir="currentDir" :loading="loading" :table="table"/>
@@ -15,6 +15,8 @@
 import {mapState} from 'vuex'
 import AppButtonImport from "@/components/AppButtonImport";
 import AppDisk from "@/components/AppDisk";
+import Grid from "@/assets/Grid.svg"
+import Spreadsheet from "@/assets/Spreadsheet.svg"
 
 export default {
   components: {AppDisk, AppButtonImport},
@@ -60,6 +62,12 @@ export default {
       } catch (err) {
         console.log(err)
       }
+    }
+  },
+  setup(){
+    return {
+      Grid,
+      Spreadsheet
     }
   }
 }
