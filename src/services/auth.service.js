@@ -13,5 +13,13 @@ export const authService = {
     getAuth: async () => {
         const {data} = await http.get("/auth/auth")
         return data
+    },
+    uploadAvatar: async (formData) => {
+        const {data} = await http.post("/files/avatar", formData)
+        return data
+    },
+    deleteAvatar: async () => {
+        const {data} = await http.delete("/files/avatar")
+        return data
     }
 }

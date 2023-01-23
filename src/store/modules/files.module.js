@@ -140,8 +140,7 @@ export default {
                     alert("Такого файла нету")
                 }
                 commit("setFiles", file)
-            } catch
-                (err) {
+            } catch (err) {
                 MessageToast(errors(err.response.data.message))
                 throw err
             }

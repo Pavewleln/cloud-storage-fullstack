@@ -22,6 +22,9 @@ export default {
         setToken(state, token) {
             state.token = token
             localStorage.setItem(TOKEN_KEY, token)
+        },
+        deleteAvatar(state){
+            state.auth.avatar = null
         }
     },
     actions: {
@@ -51,6 +54,26 @@ export default {
                 if(err.response.statusText === 'Unauthorized') {
                     await router.push("/login?token=not-valid")
                 }
+                MessageToast(errors(err.response.data.message))
+                throw err
+            }
+        },
+        async uploadAvatar({commit}, file) {
+            try {
+                const formData = new FormData()
+                formData.append('file', file)
+                const data = await authService.uploadAvatar(formData)
+                commit("setAuth", data)
+            } catch (err) {
+                MessageToast(errors(err.response.data.message))
+                throw err
+            }
+        },
+        async deleteAvatar({commit}) {
+            try {
+                await authService.deleteAvatar()
+                commit("deleteAvatar")
+            } catch (err) {
                 MessageToast(errors(err.response.data.message))
                 throw err
             }

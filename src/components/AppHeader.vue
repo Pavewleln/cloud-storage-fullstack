@@ -14,10 +14,25 @@
         <p class="mr-5">{{ auth?.firstname }}</p>
         <v-menu>
           <template v-slot:activator="{ props }">
-            <v-avatar size="40" color="surface-variant" class="mr-5 avatar" v-bind="props"></v-avatar>
+            <v-avatar v-if="auth.avatar" size="40" class="mr-5 avatar" v-bind="props">
+              <v-img :src="'http://localhost:5000/'+ auth.avatar"></v-img>
+            </v-avatar>
+            <v-avatar v-else size="40" color="surface-variant" class="mr-5 avatar" v-bind="props"></v-avatar>
           </template>
           <!--          Меню профиля-->
           <v-list>
+            <v-list-item v-if="auth.avatar">
+              <button @click="deleteAvatar">
+                Удалить фото
+              </button>
+            </v-list-item>
+            <v-list-item v-else>
+              <label for="avatar" class="downloadAvatar">
+                Загрузить фото
+              </label>
+              <input class="d-none" id="avatar" accept="image/*" v-on:change="(e) => changeHandler(e)" type="file"
+                     placeholder="Загрузить аватар"/>
+            </v-list-item>
             <v-list-item
                 v-for="(item, i) in avatarLinks"
                 :key="i"
@@ -60,9 +75,6 @@ export default {
     ],
     avatarLinks: [
       {
-        title: 'Профиль',
-        to: '/profile',
-      }, {
         title: 'Выйти',
         to: '/logout',
       }
@@ -78,6 +90,15 @@ export default {
   },
   computed: {
     ...mapState('auth', ['auth'])
+  },
+  methods: {
+    deleteAvatar() {
+      this.$store.dispatch("auth/deleteAvatar")
+    },
+    changeHandler(e) {
+      const file = e.target.files[0]
+      this.$store.dispatch("auth/uploadAvatar", file)
+    }
   },
   watch: {
     fileName(value) {
@@ -98,5 +119,8 @@ export default {
 
 .searchInput {
   max-width: 200px;
+}
+.downloadAvatar{
+  cursor: pointer;
 }
 </style>
