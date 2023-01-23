@@ -35,7 +35,7 @@
           </v-form>
         </v-card-text>
       </v-card>
-      <v-card v-if="popup === 'update'" class="pa-2 text-center">
+      <v-card v-else class="pa-2 text-center">
         <v-icon @click="$emit('close')">mdi-close</v-icon>
         <v-card-title class="text-h5">
           Изменить
@@ -77,8 +77,8 @@ export default {
     return {
       valid: true,
       dirname: '',
-      filenameExtension: this.fileName.split('.').pop(0, -1),
-      filename: this.fileName.split('.').slice(0, -1).join('.'),
+      filenameExtension: this.fileName ? this.fileName.split('.').pop(0, -1) : '',
+      filename: this.filename ? this.fileName.split('.').slice(0, -1).join('.') : '',
       dirnameRules: [
         v => !!v || 'Название некорректно',
         v => (v && v.length <= 15) || 'Название не должно содержать больше 15 символов',
