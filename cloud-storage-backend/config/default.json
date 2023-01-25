@@ -1,0 +1,7 @@
+{
+  "serverPort" : 5000,
+  "dbUrl": "mongodb+srv://pavel:werbi_223@cluster0.gpubifa.mongodb.net/cloud-storage?retryWrites=true&w=majority",
+  "secretKey": "mern-secket-key",
+  "filePath": "C:\\Users\\Павел\\Desktop\\server\\files",
+  "staticPath": "C:\\Users\\Павел\\Desktop\\server\\static"
+}
