@@ -1,23 +1,27 @@
-.DS_Store
-node_modules
-/dist
+cloud-storage-frontend/.DS_Store
+cloud-storage-frontend/node_modules
+cloud-storage-backend/node_modules
+cloud-storage-backend/files
+cloud-storage-backend/static
+cloud-storage-frontend/dist
+dist
 
 
 # local env files
-.env.local
-.env.*.local
+cloud-storage-frontend/.env.local
+cloud-storage-frontend/.env.*.local
 
 # Log files
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
+cloud-storage-frontend/npm-debug.log*
+cloud-storage-frontend/yarn-debug.log*
+cloud-storage-frontend/yarn-error.log*
+cloud-storage-frontend/pnpm-debug.log*
 
 # Editor directories and files
-.idea
-.vscode
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+cloud-storage-frontend/.idea
+cloud-storage-frontend/.vscode
+cloud-storage-frontend/*.suo
+cloud-storage-frontend/*.ntvs*
+cloud-storage-frontend/*.njsproj
+cloud-storage-frontend/*.sln
+cloud-storage-frontend/*.sw?
