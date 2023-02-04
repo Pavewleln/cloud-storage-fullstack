@@ -1,19 +1,45 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-
+import MainHome from "@/views/MainHome.vue";
+import AuthLogout from "@/views/AuthLogout.vue";
+import AuthLogin from "@/views/AuthLogin.vue";
+import AuthRegister from "@/views/AuthRegister.vue";
+import store from "@/store";
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'home',
-    component: HomeView
+    component: MainHome,
+    meta: {
+      layout: 'main',
+      auth: true
+    }
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+    path: '/logout',
+    name: 'logout',
+    component: () => AuthLogout,
+    meta: {
+      layout: 'auth',
+      auth: true
+    }
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => AuthLogin,
+    meta: {
+      layout: 'auth',
+      auth: false
+    }
+  },
+  {
+    path: '/registration',
+    name: 'registration',
+    component: () => AuthRegister,
+    meta: {
+      layout: 'auth',
+      auth: false
+    }
   }
 ]
 
@@ -22,4 +48,14 @@ const router = createRouter({
   routes
 })
 
+router.beforeEach((to, from, next) => {
+  const requireAuth = to.meta.auth
+  if(requireAuth && store.getters["auth/isAuthenticated"]) {
+    next()
+  } else if(requireAuth && !store.getters["auth/isAuthenticated"]){
+    next('/login?message=auth')
+  } else {
+    next()
+  }
+})
 export default router
