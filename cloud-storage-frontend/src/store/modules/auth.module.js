@@ -65,7 +65,7 @@ export default {
                 const data = await authService.uploadAvatar(formData)
                 commit("setAuth", data)
             } catch (err) {
-                MessageToast(errors(err.response.data.message))
+                MessageToast(errors(err?.response?.data?.message))
                 throw err
             }
         },

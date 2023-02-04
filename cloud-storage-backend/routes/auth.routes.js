@@ -35,7 +35,7 @@ router.post('/registration',
         res.json({token, message: "USER_WAS_CREATED"})
     } catch (e) {
         console.log(e)
-        res.send({message: "SERVER_ERROR"})
+        res.send({message: e})
     }
 })
 

@@ -18,6 +18,7 @@ cloud-storage-frontend/yarn-error.log*
 cloud-storage-frontend/pnpm-debug.log*
 
 # Editor directories and files
+.idea
 cloud-storage-frontend/.idea
 cloud-storage-frontend/.vscode
 cloud-storage-frontend/*.suo

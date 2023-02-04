@@ -15,13 +15,13 @@
         <v-menu>
           <template v-slot:activator="{ props }">
             <v-avatar v-if="auth.avatar" size="40" class="mr-5 avatar" v-bind="props">
-              <v-img :src="'http://localhost:5000/'+ auth.avatar"></v-img>
+              <v-img :src="'http://localhost:5000/'+ auth?.avatar"></v-img>
             </v-avatar>
             <v-avatar v-else size="40" color="surface-variant" class="mr-5 avatar" v-bind="props"></v-avatar>
           </template>
           <!--          Меню профиля-->
           <v-list>
-            <v-list-item v-if="auth.avatar">
+            <v-list-item v-if="auth?.avatar">
               <button @click="deleteAvatar">
                 Удалить фото
               </button>

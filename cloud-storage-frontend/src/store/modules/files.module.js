@@ -61,7 +61,7 @@ export default {
                 }
                 return files
             } catch (err) {
-                MessageToast(errors(err.response.data.message))
+                MessageToast(errors(err?.response?.data?.message))
                 throw err
             }
         },
@@ -70,7 +70,7 @@ export default {
                 const data = await filesService.createDir(name, dirId)
                 commit("addFiles", data)
             } catch (err) {
-                MessageToast(errors(err.response.data.message))
+                MessageToast(errors(err?.response?.data?.message))
                 throw err
             }
         },
@@ -89,7 +89,7 @@ export default {
                 })
                 commit("addFiles", data)
             } catch (err) {
-                MessageToast(errors(err.response.data.message))
+                MessageToast(errors(err?.response?.data?.message))
                 throw err
             }
         },
@@ -111,7 +111,7 @@ export default {
                     link.remove()
                 }
             } catch (err) {
-                MessageToast(errors(err.response.data.message))
+                MessageToast(errors(err?.response?.data?.message))
                 throw err
             }
         },
@@ -129,7 +129,7 @@ export default {
                 await filesService.updateNameFile(name, id)
                 commit("updateNameFile", {name, id})
             } catch (err) {
-                MessageToast(errors(err.response.data.message))
+                MessageToast(errors(err?.response?.data?.message))
                 throw err
             }
         },
@@ -141,7 +141,7 @@ export default {
                 }
                 commit("setFiles", file)
             } catch (err) {
-                MessageToast(errors(err.response.data.message))
+                MessageToast(errors(err?.response?.data?.message))
                 throw err
             }
         }
