@@ -43,7 +43,7 @@ export default {
         }
     },
     actions: {
-        async login(commit: any, payload: Login) {
+        async login({commit}: {commit : any}, payload: Login) {
             try {
                 const {token} = await authService.login(payload.email, payload.password)
                 commit('setToken', token)
@@ -52,7 +52,7 @@ export default {
                 throw err
             }
         },
-        async registration(commit: any, payload: Register) {
+        async registration({commit}: {commit : any}, payload: Register) {
             try {
                 const {token} = await authService.registration(payload)
                 commit('setToken', token)
@@ -61,7 +61,7 @@ export default {
                 throw err
             }
         },
-        async auth(commit: any) {
+        async auth({commit}: {commit : any}) {
             try{
                 const {user} = await authService.getAuth()
                 commit("setAuth", user)
@@ -73,7 +73,7 @@ export default {
                 throw err
             }
         },
-        async uploadAvatar(commit: any, file: any) {
+        async uploadAvatar({commit}: {commit : any}, file: any) {
             try {
                 const formData: any = new FormData()
                 formData.append('file', file)
@@ -84,7 +84,7 @@ export default {
                 throw err
             }
         },
-        async deleteAvatar(commit: any) {
+        async deleteAvatar({commit}: {commit : any}) {
             try {
                 await authService.deleteAvatar()
                 commit("deleteAvatar")

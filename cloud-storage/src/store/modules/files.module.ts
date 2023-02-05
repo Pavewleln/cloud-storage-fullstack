@@ -74,7 +74,7 @@ export default {
         }
     },
     actions: {
-        async get(commit: any, payload: Get) {
+        async get({commit}: {commit : any}, payload: Get): Promise<any | void> {
             try {
                 const files = await filesService.get(payload.dirId, payload.sort)
                 if (files) {
@@ -86,7 +86,7 @@ export default {
                 throw err
             }
         },
-        async createDir(commit: any, payload: createDir) {
+        async createDir({commit}: {commit : any}, payload: createDir): Promise<void> {
             try {
                 const data = await filesService.createDir(payload.name, payload.dirId)
                 commit("addFiles", data)
@@ -95,7 +95,7 @@ export default {
                 throw err
             }
         },
-        async uploadFile(commit: any, payload: FileImport) {
+        async uploadFile({commit}: {commit : any}, payload: FileImport): Promise<void> {
             try {
                 const formData = new FormData()
                 formData.append('file', payload.file)
@@ -114,12 +114,12 @@ export default {
                 throw err
             }
         },
-        async downloadFile(_: any, file: any) {
+        async downloadFile(_: any, file: any): Promise<void> {
             try {
                 const response = await fetch(`http://localhost:5000/api/files/download?id=${file._id}`, {
-                    headers: {
-                        Authorization: window.localStorage.getItem("jwt-token")
-                    }
+                    // headers: {
+                    //     Authorization: window.localStorage.getItem("jwt-token")
+                    // }
                 })
                 if (response.status === 200) {
                     const blob = await response.blob()
@@ -136,7 +136,7 @@ export default {
                 throw err
             }
         },
-        async deleteFile(commit: any, fileId: string) {
+        async deleteFile({commit}: {commit : any}, fileId: string): Promise<void> {
             try {
                 await filesService.deleteFile(fileId)
                 commit("deleteFile", fileId)
@@ -145,7 +145,7 @@ export default {
                 throw err
             }
         },
-        async updateNameFile(commit: any, payload: updateDir) {
+        async updateNameFile({commit}: {commit : any}, payload: updateDir): Promise<void> {
             try {
                 await filesService.updateNameFile(payload.name, payload.id)
                 commit("updateNameFile", payload)
@@ -154,7 +154,7 @@ export default {
                 throw err
             }
         },
-        async searchFile(commit: any, fileName: string) {
+        async searchFile({commit}: {commit : any}, fileName: string): Promise<void> {
             try {
                 const file = await filesService.searchFile(fileName)
                 if (file === []) {

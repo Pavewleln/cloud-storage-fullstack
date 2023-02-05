@@ -1,6 +1,7 @@
 cloud-storage-frontend/.DS_Store
 cloud-storage-frontend/node_modules
 cloud-storage-backend/node_modules
+cloud-storage-frontend-typescript/node_modules
 cloud-storage-backend/files
 cloud-storage-backend/static
 cloud-storage-frontend/dist

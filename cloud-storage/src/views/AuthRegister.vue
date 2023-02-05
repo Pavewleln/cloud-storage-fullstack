@@ -70,6 +70,7 @@ export type Register = {
   password: string
 }
 export default defineComponent({
+  name: 'AuthRegister',
   data: () => ({
     // валидна или нет
     valid: true,
@@ -102,8 +103,8 @@ export default defineComponent({
 
   methods: {
     // регистрация
-    async validate() {
-      const {valid} = await this.$refs.form.validate()
+    async validate(): Promise<void> {
+      const {valid} = await (this.$refs['form'] as any).validate()
       if (!valid) alert('Форма не валидна')
       // Данные о человеке
       const payload: Register = {
@@ -114,7 +115,7 @@ export default defineComponent({
       }
       try {
         await this.$store.dispatch('auth/registration', payload)
-        this.$refs.form.reset()
+        await (this.$refs['form'] as any).reset()
         this.$router.push("/")
       } catch (err) {
         console.log(err)

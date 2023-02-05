@@ -1,17 +1,16 @@
 <template>
   <v-app>
     <v-main>
-<!--      Изменение фона в зависимости от страницы-->
       <component :is="layout + '-layout'"></component>
     </v-main>
   </v-app>
 </template>
 
 <script lang="ts">
-import {computed, defineComponent} from 'vue'
-import {useRoute} from "vue-router";
 import MainLayout from "@/layouts/main-layout.vue";
-import MainHome from "@/layouts/auth-layout.vue";
+import AuthLayout from "@/layouts/auth-layout.vue";
+import {useRoute} from "vue-router";
+import {computed, defineComponent} from 'vue'
 
 export default defineComponent({
   setup() {
@@ -22,7 +21,7 @@ export default defineComponent({
     }
   },
   components: {
-    MainHome,
+    AuthLayout,
     MainLayout
   }
 })

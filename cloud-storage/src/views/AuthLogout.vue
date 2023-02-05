@@ -8,6 +8,7 @@
 import {defineComponent} from "vue";
 
 export default defineComponent({
+  name: 'AuthLogout',
   // выход из системы
   mounted() {
     this.$store.commit("auth/logout")

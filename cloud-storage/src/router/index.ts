@@ -1,14 +1,14 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import MainHome from "@/views/MainHome.vue";
-import AuthLogout from "@/views/AuthLogout.vue";
-import AuthLogin from "@/views/AuthLogin.vue";
-import AuthRegister from "@/views/AuthRegister.vue";
-import store from "@/store";
-const routes: Array<RouteRecordRaw> = [
+import {
+  createRouter,
+  createWebHistory,
+  RouteRecordRaw
+} from 'vue-router'
+import store from "@/store/index";
+const routes: RouteRecordRaw[] = [
   {
     path: '/',
     name: 'home',
-    component: MainHome,
+    component: () => import('@/views/MainHome.vue'),
     meta: {
       layout: 'main',
       auth: true
@@ -17,7 +17,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/logout',
     name: 'logout',
-    component: () => AuthLogout,
+    component: () => import('@/views/AuthLogout.vue'),
     meta: {
       layout: 'auth',
       auth: true
@@ -26,7 +26,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/login',
     name: 'login',
-    component: () => AuthLogin,
+    component: () => import('@/views/AuthLogin.vue'),
     meta: {
       layout: 'auth',
       auth: false
@@ -35,7 +35,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/registration',
     name: 'registration',
-    component: () => AuthRegister,
+    component: () => import('@/views/AuthRegister.vue'),
     meta: {
       layout: 'auth',
       auth: false

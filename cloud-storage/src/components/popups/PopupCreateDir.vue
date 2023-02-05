@@ -106,7 +106,7 @@ export default defineComponent({
   methods: {
     // создать папку
     async createDir(): Promise<any> {
-      const {valid} = await this.$refs.form.validate()
+      const {valid} = await (this.$refs['form'] as any).validate()
       if (!valid) alert('Форма не валидна')
       const payload: createDir = {
         name: this.dirname,
@@ -114,7 +114,7 @@ export default defineComponent({
       }
       try {
         await this.$store.dispatch("files/createDir", payload)
-        this.$refs.form.reset()
+        await (this.$refs['form'] as any).reset()
         this.$emit('close')
       } catch (err) {
         console.log(err)
@@ -122,7 +122,7 @@ export default defineComponent({
     },
     // изменить название папки
     async updateNameFile(): Promise<any> {
-      const {valid} = await this.$refs.form.validate()
+      const {valid} = await (this.$refs['form'] as any).validate()
       if (!valid) alert('Форма не валидна')
       const payload: updateDir = {
         id: this.id,
@@ -130,7 +130,7 @@ export default defineComponent({
       }
       try {
         await this.$store.dispatch("files/updateNameFile", payload)
-        this.$refs.form.reset()
+        await (this.$refs['form'] as any).reset()
         this.$emit('close')
       } catch (err) {
         console.log(err)

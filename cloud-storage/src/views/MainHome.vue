@@ -20,6 +20,7 @@ import spreadsheet from "@/assets/Spreadsheet.svg"
 import { defineComponent } from 'vue';
 
 export default defineComponent({
+  name: 'MainHome',
   components: {AppDisk, AppButtonImport},
   data() {
     return {

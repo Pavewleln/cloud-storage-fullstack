@@ -53,6 +53,7 @@ export type Login = {
   password: string
 }
 export default defineComponent({
+  name: 'AuthLogin',
   data: () => ({
     // валидно или нет
     valid: true,
@@ -77,7 +78,7 @@ export default defineComponent({
   methods: {
     // Вход в систему
     async validate() {
-      const {valid} = await this.$refs.form.validate()
+      const {valid} = await (this.$refs['form'] as any).validate()
       if (!valid) alert('Форма не валидна')
       const payload: Login = {
         email: this.email,
@@ -85,7 +86,7 @@ export default defineComponent({
       }
       try {
         await this.$store.dispatch('auth/login', payload)
-        this.$refs.form.reset()
+        await (this.$refs['form'] as any).reset()
         this.$router.push("/")
       } catch (err) {
         console.log(err)
@@ -97,5 +98,4 @@ export default defineComponent({
 </script>
 
 <style scoped>
-
 </style>

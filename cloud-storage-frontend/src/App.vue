@@ -13,7 +13,6 @@ import {useRoute} from "vue-router/dist/vue-router";
 import {computed} from "vue";
 
 export default {
-  name: 'App',
   setup() {
     const route = useRoute()
     const layout = computed(() => route.meta.layout)

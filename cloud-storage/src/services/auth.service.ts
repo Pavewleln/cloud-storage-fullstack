@@ -1,11 +1,11 @@
 import http from "@/services/config";
 import {Register} from "@/views/AuthRegister.vue";
 type authService = {
-    login: (email: string, password: string) => any,
-    registration: (payload: Register) => any,
-    getAuth: () => any,
-    uploadAvatar: (formData: any) => any,
-    deleteAvatar: () => any
+    login: (email: string, password: string) => Promise<any>,
+    registration: (payload: Register) => Promise<any>,
+    getAuth: () => Promise<any>,
+    uploadAvatar: (formData: any) => Promise<any>,
+    deleteAvatar: () => Promise<any>
 }
 
 export const authService: authService = {
