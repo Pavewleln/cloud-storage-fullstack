@@ -117,10 +117,10 @@ export default {
         async downloadFile(_: any, file: any): Promise<void> {
             try {
                 const response = await fetch(`http://localhost:5000/api/files/download?id=${file._id}`, {
-                    // headers: {
-                    //     Authorization: window.localStorage.getItem("jwt-token")
-                    // }
-                })
+                headers: {
+                        Authorization: window.localStorage.getItem("jwt-token")
+                    }
+                } as object)
                 if (response.status === 200) {
                     const blob = await response.blob()
                     const downloadUrl = window.URL.createObjectURL(blob)
